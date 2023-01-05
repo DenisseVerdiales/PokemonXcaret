@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>332902863725-sedkaj47haj7md1md26jp9rhfnna2ril.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.332902863725-sedkaj47haj7md1md26jp9rhfnna2ril</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAxOQGOYkZ7AZPfp1b55Cij5a2VPzCLtWQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>332902863725</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cynthia.verdiales.apple.demo.PokemonTestXcaret</string>
+	<key>PROJECT_ID</key>
+	<string>pokemontestxcaret</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pokemontestxcaret.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:332902863725:ios:f2d39333c7a5809e850064</string>
+</dict>
+</plist>
