@@ -12,7 +12,7 @@ enum NetworkParams {
     
     private struct NetworkConstants {
         static let pokemonBase = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=20"
-        static let baseImage = "https://image.tmdb.org/t/p/w500"
+        static let baseImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/"
     }
         
     case pokemons
@@ -23,7 +23,7 @@ enum NetworkParams {
         case .pokemons:
             return URL(string: NetworkConstants.pokemonBase)
         case .pokemonImage(let posterPath):
-            return URL(string: NetworkConstants.baseImage + posterPath)
+            return URL(string: NetworkConstants.baseImage + "\(posterPath).png")
 
         }
     }

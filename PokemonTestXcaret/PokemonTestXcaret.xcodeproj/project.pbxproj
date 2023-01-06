@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		028E0D422967A52D00DBA562 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028E0D412967A52D00DBA562 /* DetailViewController.swift */; };
 		02CA77DC2964D42D0068606B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA77DB2964D42D0068606B /* AppDelegate.swift */; };
 		02CA77DE2964D42E0068606B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA77DD2964D42E0068606B /* SceneDelegate.swift */; };
 		02CA77E32964D42E0068606B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02CA77E12964D42E0068606B /* Main.storyboard */; };
@@ -30,6 +31,10 @@
 		02CA7838296660F60068606B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA7837296660F60068606B /* NetworkManager.swift */; };
 		02CA783A296661D40068606B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA7839296661D40068606B /* Session.swift */; };
 		02CA783C2966625A0068606B /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA783B2966625A0068606B /* DatabaseManager.swift */; };
+		02CA784029674A230068606B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA783F29674A230068606B /* Color.swift */; };
+		02CA784229674EDF0068606B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA784129674EDF0068606B /* ImageCache.swift */; };
+		02CA78442967579A0068606B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA78432967579A0068606B /* UIViewExtension.swift */; };
+		02CA7847296780A20068606B /* PokemonDetailCViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA7846296780A20068606B /* PokemonDetailCViewCell.swift */; };
 		6D0BB5DB0324B8A2D1D615AC /* Pods_PokemonTestXcaretTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95FBB311C1CB6BE899E9F2FF /* Pods_PokemonTestXcaretTests.framework */; };
 		AB3E8CFD48A93B88BD4FFE8C /* Pods_PokemonTestXcaret_PokemonTestXcaretUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18311CA5AC46B1C17BA3994 /* Pods_PokemonTestXcaret_PokemonTestXcaretUITests.framework */; };
 		B7439E7D91BA680B2CA0816C /* Pods_PokemonTestXcaret.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5848CF2CC1AD4C8DA3D0922E /* Pods_PokemonTestXcaret.framework */; };
@@ -53,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		028E0D412967A52D00DBA562 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		02CA77D82964D42D0068606B /* PokemonTestXcaret.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonTestXcaret.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		02CA77DB2964D42D0068606B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02CA77DD2964D42E0068606B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +86,10 @@
 		02CA7837296660F60068606B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		02CA7839296661D40068606B /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		02CA783B2966625A0068606B /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		02CA783F29674A230068606B /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		02CA784129674EDF0068606B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		02CA78432967579A0068606B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		02CA7846296780A20068606B /* PokemonDetailCViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailCViewCell.swift; sourceTree = "<group>"; };
 		3AD792920CA91D0BC975C3F4 /* Pods-PokemonTestXcaret-PokemonTestXcaretUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonTestXcaret-PokemonTestXcaretUITests.release.xcconfig"; path = "Target Support Files/Pods-PokemonTestXcaret-PokemonTestXcaretUITests/Pods-PokemonTestXcaret-PokemonTestXcaretUITests.release.xcconfig"; sourceTree = "<group>"; };
 		4F3C717E1BA4B4E83413F683 /* Pods-PokemonTestXcaretTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokemonTestXcaretTests.release.xcconfig"; path = "Target Support Files/Pods-PokemonTestXcaretTests/Pods-PokemonTestXcaretTests.release.xcconfig"; sourceTree = "<group>"; };
 		5848CF2CC1AD4C8DA3D0922E /* Pods_PokemonTestXcaret.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokemonTestXcaret.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,6 +195,7 @@
 				02CA7835296660A20068606B /* NetworkParams.swift */,
 				02CA7837296660F60068606B /* NetworkManager.swift */,
 				02CA7839296661D40068606B /* Session.swift */,
+				02CA784129674EDF0068606B /* ImageCache.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -192,6 +203,7 @@
 		02CA780F2964D4860068606B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				02CA78452967806A0068606B /* DetailPokemon */,
 				02CA782E296606A50068606B /* ListPokemon */,
 				02CA78142964D7260068606B /* LogIn */,
 			);
@@ -229,6 +241,8 @@
 			children = (
 				02CA78262964E1B90068606B /* HexColor.swift */,
 				02CA7828296517C80068606B /* utilities.swift */,
+				02CA783F29674A230068606B /* Color.swift */,
+				02CA78432967579A0068606B /* UIViewExtension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -240,6 +254,15 @@
 				02CA783129664A9B0068606B /* ListPokemonViewCell.swift */,
 			);
 			path = ListPokemon;
+			sourceTree = "<group>";
+		};
+		02CA78452967806A0068606B /* DetailPokemon */ = {
+			isa = PBXGroup;
+			children = (
+				02CA7846296780A20068606B /* PokemonDetailCViewCell.swift */,
+				028E0D412967A52D00DBA562 /* DetailViewController.swift */,
+			);
+			path = DetailPokemon;
 			sourceTree = "<group>";
 		};
 		A96A426AB04D5485305CA6C9 /* Frameworks */ = {
@@ -509,13 +532,18 @@
 				02CA77DC2964D42D0068606B /* AppDelegate.swift in Sources */,
 				02CA7829296517C80068606B /* utilities.swift in Sources */,
 				02CA782D29651D470068606B /* pokemonViewModel.swift in Sources */,
+				02CA784029674A230068606B /* Color.swift in Sources */,
 				02CA782B296518EA0068606B /* SignUpViewController.swift in Sources */,
+				028E0D422967A52D00DBA562 /* DetailViewController.swift in Sources */,
 				02CA783229664A9B0068606B /* ListPokemonViewCell.swift in Sources */,
 				02CA783A296661D40068606B /* Session.swift in Sources */,
 				02CA78272964E1B90068606B /* HexColor.swift in Sources */,
+				02CA7847296780A20068606B /* PokemonDetailCViewCell.swift in Sources */,
 				02CA78162964D7BF0068606B /* LogInViewController.swift in Sources */,
 				02CA7830296607040068606B /* ListPokemonViewController.swift in Sources */,
 				02CA77E62964D42E0068606B /* PokemonTestXcaret.xcdatamodeld in Sources */,
+				02CA784229674EDF0068606B /* ImageCache.swift in Sources */,
+				02CA78442967579A0068606B /* UIViewExtension.swift in Sources */,
 				02CA78342966606D0068606B /* NetworkError.swift in Sources */,
 				02CA7838296660F60068606B /* NetworkManager.swift in Sources */,
 				02CA78132964D54B0068606B /* pokemonPage.swift in Sources */,

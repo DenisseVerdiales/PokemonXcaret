@@ -20,7 +20,6 @@ class NetworkManager {
     init(session: Session = URLSession.shared) {
         self.session = session
     }
-    
 }
 
 extension NetworkManager: NetworkService {
@@ -48,16 +47,16 @@ extension NetworkManager: NetworkService {
                 return
             }
             
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
-                let model = try self.decoder.decode(T.self, from: data)
+                let model = try decoder.decode(T.self, from: data)
                 completion(.success(model))
             } catch {
                 completion(.failure(NetworkError.decodeError(error)))
             }
-            
         }
-        
     }
     
     func getRawData(url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void) {
@@ -85,9 +84,6 @@ extension NetworkManager: NetworkService {
             }
             
             completion(.success(data))
-            
         }
-        
-        
     }
 }

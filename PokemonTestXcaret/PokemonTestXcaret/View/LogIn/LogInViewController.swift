@@ -42,7 +42,6 @@ class LogInViewController: UIViewController {
         )
         txtUser.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         txtUser.leftViewMode = .always
-       // txtUser.backgroundColor = .secondarySystemBackground
         return txtUser
           
       }()
@@ -61,7 +60,6 @@ class LogInViewController: UIViewController {
         )
         txtPassword.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         txtPassword.leftViewMode = .always
-       // txtPassword.backgroundColor = .secondarySystemBackground
         txtPassword.isSecureTextEntry = true
           
         return txtPassword

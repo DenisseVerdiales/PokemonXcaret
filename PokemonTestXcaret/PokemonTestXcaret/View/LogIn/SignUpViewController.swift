@@ -198,10 +198,12 @@ class SignUpViewController: UIViewController {
         }
 
         let email = txtUser.text ?? "", password = txtPassword.text ?? ""
+        var message: String = ""
+        
 
         signupMaganer.createUser(with: email, password: password){[weak self] (success) in
             guard let self = self else {return}
-            var message: String = ""
+            
             
             message = success ? "User was sucessfully created" : "There was an error"
            
@@ -209,16 +211,27 @@ class SignUpViewController: UIViewController {
             
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
             self.present(alert, animated: true)
+            //self.navigationController?.popToRootViewController(animated: true)
+
             
             if success {
                 self.txtUser.text = ""
                 self.txtUserConfirm.text = ""
                 self.txtPassword.text = ""
-                self.navigationController?.popViewController(animated: true)
+                
+                DispatchQueue.main.async{
+                    
+                        self.navigationController?.popToRootViewController(animated: true)
+                    
+                }
 //                let vc = LogInViewController()
 //                self.navigationController?.pushViewController(vc, animated: true)
                 //self.navigationController?.pushViewController(detailVC, animated: true)
             }
+            
+            
         }
+       
+        
     }
 }

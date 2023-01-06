@@ -11,32 +11,43 @@ import Foundation
 protocol PokemonViewModelCore {
     func bind(updateHandler: @escaping () -> Void)
     func getPokemons()
+    func getEffect(url: String)
 }
 
 protocol PokemonViewModelAttributes {
     var count: Int { get }
     func pokemonName(for index: Int) -> String?
-    //func pokemonImage(for index: Int, completion: @escaping (Data?) -> Void)
+    func pokemonType(for index: Int) -> String?
+    func pokemonStats(for index: Int) -> [Stats]?
+    func pokemonAbilities(for index: Int) -> [Abilities]?
+    func pokemonEffect(for index: Int) -> String?
+    func pokemonImage(for index: Int, completion: @escaping (Data?) -> Void)
 }
 
 typealias PokemonViewModelType = PokemonViewModelCore & PokemonViewModelAttributes
 
 class PokemonViewModel {
     
-    private var pokemons: [Pokemon] = [] {
+    private var pokemons: [PokemonDetail] = [] {
         didSet {
             self.updateHandler?()
         }
     }
+    private var pokemonsEffect: [EffectLink] = [] {
+        didSet {
+            self.updateHandler?()
+        }
+    }
+    var pokemonUrl: Pokemonapi?
     private var networkManager: NetworkService
     private var pageCount = 1
-   // private let cache: ImageCache
+    private let cache: ImageCache
     
     private var updateHandler: (() -> Void)?
     
-    init(networkManager: NetworkService) {
+    init(networkManager: NetworkService, cache: ImageCache = ImageCache()) {
         self.networkManager = networkManager
-       // self.cache = cache
+        self.cache = cache
     }
 
 }
@@ -55,27 +66,32 @@ extension PokemonViewModel: PokemonViewModelCore {
         self.networkManager.getModel(url: NetworkParams.pokemons.url) { (result: Result<Pokemonapi, NetworkError>) in
             switch result {
             case .success(let page):
-                self.pageCount += 1
-                print("Test: 4")
-                print(page.results)
-                self.pokemons.append(contentsOf: page.results)
+                self.pokemonUrl = page
                 for pokemonResource in page.results {
-                   // myGroup.enter()
                     guard let url = URL(string: pokemonResource.url) else { return }
-                    self.networkManager.getModel(url: url) { (pokeResult: Result<Pokemon, NetworkError>) in
+                    self.networkManager.getModel(url: url) { (pokeResult: Result<PokemonDetail, NetworkError>) in
                         switch pokeResult {
                             case .success(let pokemon):
-                            print("POKEMONS \(pokemon)")
-                                self.pokemons.append(pokemon)
-                              
-                               // myGroup.leave()
-
+                            self.pokemons.append(pokemon)
                             case .failure(let error):
-                                print("OOPS! We screwed up.")
                                 print(error)
                         }
                     }
                 }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func getEffect(url: String) {
+        guard let url = URL(string: url) else {return}
+        
+        self.networkManager.getModel(url: url) { (result: Result<EffectLink, NetworkError>) in
+            switch result {
+            case .success(let page):
+                self.pokemonsEffect.append(page)
+              
             case .failure(let error):
                 print(error)
             }
@@ -94,8 +110,51 @@ extension PokemonViewModel: PokemonViewModelAttributes {
         guard index < self.count else { return nil }
         return self.pokemons[index].name
     }
-    
 
+    func pokemonType(for index: Int) -> String? {
+        guard index < self.count else { return nil }
+        return self.pokemons[index].types[0].type.name
+    }
+    
+    func pokemonStats(for index: Int) -> [Stats]? {
+        guard index < self.count else { return nil }
+        return self.pokemons[index].stats
+    }
+    
+    func pokemonAbilities(for index: Int) -> [Abilities]? {
+        guard index < self.count else { return nil }
+        return self.pokemons[index].abilities
+    }
+    
+    func pokemonEffect(for index: Int) -> String? {
+        guard index < self.count else { return nil }
+        return self.pokemonsEffect[index].effectEntries[0].effect
+    }
+    
+    func pokemonImage(for index: Int, completion: @escaping (Data?) -> Void) {
+        
+        guard index < self.count else {
+            completion(nil)
+            return
+        }
+ 
+        // Check ImageCache
+        if let imageData = self.cache.getImageData(key: String(self.pokemons[index].id)) {
+            completion(imageData)
+            return
+        }
+        
+        // Else call network
+        self.networkManager.getRawData(url: NetworkParams.pokemonImage(String(self.pokemons[index].id)).url) { result in
+            switch result {
+            case .success(let imageData):
+                self.cache.setImageData(data: imageData, key: String(self.pokemons[index].id))
+                completion(imageData)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
 }
 
