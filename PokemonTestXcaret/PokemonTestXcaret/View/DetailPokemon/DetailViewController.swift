@@ -16,7 +16,7 @@ class DetailViewController: UIViewController {
         table.layer.cornerRadius = 5
         //table.dataSource = self
       //  table.delegate = self
-        table.register(PokemonDetailCViewCell.self, forCellReuseIdentifier: PokemonDetailCViewCell.reusedId)
+//        table.register(PokemonDetailCViewCell.self, forCellReuseIdentifier: PokemonDetailCViewCell.reusedId)
         return table
         
     }()

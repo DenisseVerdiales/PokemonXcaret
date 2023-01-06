@@ -8,15 +8,15 @@
 import UIKit
 
 class PokemonDetailCViewCell: UIViewController {
-    
-    static let reusedId = "\(PokemonDetailCViewCell.self)"
-    //let pokemonVM: PokemonViewModelType
-    let NetManager = NetworkManager()
+
+    let scrollView = UIScrollView()
+    let contentView = UIView()
     
     lazy var progImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
         imageView.image = UIImage(named: "pok")
         
         return imageView
@@ -38,7 +38,7 @@ class PokemonDetailCViewCell: UIViewController {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textAlignment = NSTextAlignment.center
+        label.textAlignment = NSTextAlignment.left
         label.text = ""
         label.backgroundColor = .white
         label.layer.borderWidth = 2.0
@@ -224,8 +224,11 @@ class PokemonDetailCViewCell: UIViewController {
     
 
     override func viewDidLoad() {
-        setUpUI()
         view.backgroundColor = .white
+    }
+    
+    override func viewDidLayoutSubviews() {
+        setupScrollView()
     }
     
     func configure(pokemonVM: PokemonViewModelType, index: Int) {
@@ -284,23 +287,37 @@ class PokemonDetailCViewCell: UIViewController {
     
     }
     
+    func setupScrollView(){
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.frame = view.bounds
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+
+        scrollView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+
+        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        scrollView.contentSize = CGSize(width: view.frame.size.width, height: 600)
+        setUpUI()
+   }
     
     private func setUpUI(){
-     
-        let vStackView = UIStackView(frame: .zero)
-        vStackView.translatesAutoresizingMaskIntoConstraints = false
-        vStackView.spacing = 8
-        vStackView.axis = .vertical
 
-        vStackView.addArrangedSubview(self.progImageView)
-        vStackView.addArrangedSubview(self.progTopLabel)
-        vStackView.addArrangedSubview(progressLabel)
+        contentView.addSubview(progImageView)
+        contentView.addSubview(progTopLabel)
+        contentView.addSubview(progressLabel)
         
         let vProgStackView = UIStackView(frame: .zero)
         vProgStackView.translatesAutoresizingMaskIntoConstraints = false
         vProgStackView.spacing = 0
         vProgStackView.alignment = .center
-        vProgStackView.distribution = .equalCentering
+        vProgStackView.distribution = .equalSpacing
         vProgStackView.axis = .vertical
         
         vProgStackView.addArrangedSubview(self.progProgress2)
@@ -313,7 +330,7 @@ class PokemonDetailCViewCell: UIViewController {
         let vProgLblStackView = UIStackView(frame: .zero)
         vProgLblStackView.translatesAutoresizingMaskIntoConstraints = false
         vProgLblStackView.spacing = 0
-        vProgLblStackView.distribution = .equalCentering
+        vProgLblStackView.distribution = .equalSpacing
         vProgLblStackView.axis = .vertical
         
         vProgLblStackView.addArrangedSubview(self.progressLabel2)
@@ -328,19 +345,36 @@ class PokemonDetailCViewCell: UIViewController {
         hStackView.axis = .horizontal
         hStackView.backgroundColor = .cyan
         hStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        hStackView.layer.cornerRadius = 12
         
         hStackView.addArrangedSubview(vProgStackView)
         hStackView.addArrangedSubview(vProgLblStackView)
-        vStackView.addArrangedSubview(hStackView)
-        vStackView.addArrangedSubview(lblEffect)
         
-        self.progImageView.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        contentView.addSubview(hStackView)
+        contentView.addSubview(lblEffect)
+        
+        progImageView.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        progImageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        progImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
+        progImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
+        progImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0).isActive = true
 
-        self.progTopLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        self.progTopLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        progTopLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        progTopLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        progTopLabel.topAnchor.constraint(equalTo: progImageView.bottomAnchor, constant: -20).isActive = true
+        progTopLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
+        progTopLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0).isActive = true
 
-        self.progressLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        self.progressLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        progressLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        progressLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        progressLabel.topAnchor.constraint(equalTo: progTopLabel.bottomAnchor, constant: 20).isActive = true
+        progressLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
+        progressLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0).isActive = true
+        
+        hStackView.topAnchor.constraint(equalTo: progressLabel.bottomAnchor, constant: 20).isActive = true
+        hStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
+        hStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+        
         
         self.progProgress2.heightAnchor.constraint(equalToConstant: 10).isActive = true
         self.progProgress2.widthAnchor.constraint(equalToConstant: 110).isActive = true
@@ -358,8 +392,9 @@ class PokemonDetailCViewCell: UIViewController {
         self.progProgress6.widthAnchor.constraint(equalToConstant: 110).isActive = true
         
         self.lblEffect.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        self.view.addSubview(vStackView)
-        vStackView.bindToSuperView()
+        lblEffect.topAnchor.constraint(equalTo: hStackView.bottomAnchor, constant: 20).isActive = true
+        lblEffect.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8).isActive = true
+        lblEffect.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8).isActive = true
+
       }
 }
