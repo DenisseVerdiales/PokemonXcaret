@@ -16,6 +16,7 @@ class PokemonDetailCViewCell: UIViewController {
         let imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleToFill
+        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 12
         imageView.image = UIImage(named: "pok")
         
@@ -138,25 +139,25 @@ class PokemonDetailCViewCell: UIViewController {
         
         return label
     }()
-    lazy var progProgress: UIProgressView = {
-        let progress = UIProgressView(frame: .zero)
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.backgroundColor = UIColor.black.withAlphaComponent(0.08)
-        progress.progressTintColor = .systemCyan
-        progress.progress = 0.5
-        progress.progressViewStyle = .bar
-        progress.layer.cornerRadius = 5
-        progress.clipsToBounds = true
-        progress.layer.sublayers![1].cornerRadius = 5
-        
-        return progress
-    }()
+//    lazy var progProgress: UIProgressView = {
+//        let progress = UIProgressView(frame: .zero)
+//        progress.translatesAutoresizingMaskIntoConstraints = false
+//        progress.backgroundColor = UIColor.black.withAlphaComponent(0.08)
+//        progress.progressTintColor = .systemCyan
+//        progress.progress = 0.5
+//        progress.progressViewStyle = .bar
+//        progress.layer.cornerRadius = 5
+//        progress.clipsToBounds = true
+//        progress.layer.sublayers![1].cornerRadius = 5
+//
+//        return progress
+//    }()
     
     lazy var progProgress2: UIProgressView = {
         let progress = UIProgressView(frame: .zero)
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.backgroundColor = UIColor.black.withAlphaComponent(0.08)
-        progress.progressTintColor = .systemCyan
+        progress.progressTintColor = hexStringToUIColor(hex: "#23B047")
         progress.progress = 0.5
         progress.progressViewStyle = .bar
         progress.layer.cornerRadius = 5
@@ -170,7 +171,7 @@ class PokemonDetailCViewCell: UIViewController {
         let progress = UIProgressView(frame: .zero)
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.backgroundColor = UIColor.black.withAlphaComponent(0.08)
-        progress.progressTintColor = .systemCyan
+        progress.progressTintColor = hexStringToUIColor(hex: "#23B047")
         progress.progress = 0.5
         progress.progressViewStyle = .bar
         progress.layer.cornerRadius = 5
@@ -184,7 +185,7 @@ class PokemonDetailCViewCell: UIViewController {
         let progress = UIProgressView(frame: .zero)
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.backgroundColor = UIColor.black.withAlphaComponent(0.08)
-        progress.progressTintColor = .systemCyan
+        progress.progressTintColor = hexStringToUIColor(hex: "#23B047")
         progress.progress = 0.5
         progress.progressViewStyle = .bar
         progress.layer.cornerRadius = 5
@@ -198,7 +199,7 @@ class PokemonDetailCViewCell: UIViewController {
         let progress = UIProgressView(frame: .zero)
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.backgroundColor = UIColor.black.withAlphaComponent(0.08)
-        progress.progressTintColor = .systemCyan
+        progress.progressTintColor = hexStringToUIColor(hex: "#23B047")
         progress.progress = 0.5
         progress.progressViewStyle = .bar
         progress.layer.cornerRadius = 5
@@ -212,7 +213,7 @@ class PokemonDetailCViewCell: UIViewController {
         let progress = UIProgressView(frame: .zero)
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.backgroundColor = UIColor.black.withAlphaComponent(0.08)
-        progress.progressTintColor = .systemCyan
+        progress.progressTintColor = hexStringToUIColor(hex: "#23B047")
         progress.progress = 0.5
         progress.progressViewStyle = .bar
         progress.layer.cornerRadius = 5
@@ -319,6 +320,7 @@ class PokemonDetailCViewCell: UIViewController {
         vProgStackView.alignment = .center
         vProgStackView.distribution = .equalSpacing
         vProgStackView.axis = .vertical
+        vProgStackView.alignment = .leading
         
         vProgStackView.addArrangedSubview(self.progProgress2)
         vProgStackView.addArrangedSubview(self.progProgress3)
@@ -332,6 +334,7 @@ class PokemonDetailCViewCell: UIViewController {
         vProgLblStackView.spacing = 0
         vProgLblStackView.distribution = .equalSpacing
         vProgLblStackView.axis = .vertical
+        vProgLblStackView.alignment = .trailing
         
         vProgLblStackView.addArrangedSubview(self.progressLabel2)
         vProgLblStackView.addArrangedSubview(self.progressLabel3)
@@ -343,7 +346,7 @@ class PokemonDetailCViewCell: UIViewController {
         hStackView.translatesAutoresizingMaskIntoConstraints = false
         hStackView.spacing = 0
         hStackView.axis = .horizontal
-        hStackView.backgroundColor = .cyan
+        hStackView.backgroundColor = hexStringToUIColor(hex: "#BFF0F2")
         hStackView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         hStackView.layer.cornerRadius = 12
         
@@ -354,7 +357,7 @@ class PokemonDetailCViewCell: UIViewController {
         contentView.addSubview(lblEffect)
         
         progImageView.heightAnchor.constraint(equalToConstant: 400).isActive = true
-        progImageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        //progImageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         progImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
         progImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
         progImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0).isActive = true

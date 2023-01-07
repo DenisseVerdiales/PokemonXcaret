@@ -53,10 +53,20 @@ final class DatabaseManager{
     public func signIn(email: String, password: String, completion: @escaping (_ success: Bool) -> Void) {
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if let error = error {
+                print(error)
                 completion(false)
             } else {
                 completion(true)
             }
+        }
+    }
+    
+    public func signOut(completion: @escaping (_ success: Bool) -> Void) {
+        do {
+            try FirebaseAuth.Auth.auth().signOut()
+                completion(true)
+        } catch {
+            completion(false)
         }
     }
 }

@@ -12,11 +12,24 @@ class ListPokemonViewController: UIViewController {
     let scrollView = UIScrollView()
     let contentView = UIView()
     
+    lazy var gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.type = .axial
+        gradient.colors = [
+            hexStringToUIColor(hex: "#5C98DB").cgColor,
+            hexStringToUIColor(hex: "#0E437E").cgColor
+        ]
+        gradient.locations = [0.0, 1.0]
+        return gradient
+    }()
+    
     lazy var collectionView:UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.backgroundColor = .none
+        cv.layer.cornerRadius = 12
         cv.register(ListPokemonViewCell.self, forCellWithReuseIdentifier: ListPokemonViewCell.reusedId)
         return cv
     }()
@@ -24,6 +37,7 @@ class ListPokemonViewController: UIViewController {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "logo")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -32,6 +46,8 @@ class ListPokemonViewController: UIViewController {
         let lblCards = UILabel()
         lblCards.text = "Cards"
         lblCards.textColor = .white
+        lblCards.textAlignment = .center
+        lblCards.translatesAutoresizingMaskIntoConstraints = false
         lblCards.font = .systemFont(ofSize: 18, weight: .semibold)
          return lblCards
     }()
@@ -40,6 +56,8 @@ class ListPokemonViewController: UIViewController {
         let lblUltPok = UILabel()
         lblUltPok.text = "Ultra Pokemons"
         lblUltPok.textColor = .white
+        lblUltPok.textAlignment = .center
+        lblUltPok.translatesAutoresizingMaskIntoConstraints = false
         lblUltPok.font = .systemFont(ofSize: 24, weight: .semibold)
          return lblUltPok
     }()
@@ -58,7 +76,15 @@ class ListPokemonViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .yellow
-        //setupUI()
+        self.navigationItem.setHidesBackButton(true, animated: true)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out",
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didTapLogOut))
+        self.navigationController?.view.tintColor = UIColor.white
+        
+        
+        setupUI()
         self.pokemonVM.bind {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -70,60 +96,86 @@ class ListPokemonViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         setupScrollView()
+        gradient.frame = view.bounds
+    }
+    
+    @objc func didTapLogOut() {
+        let dbManager = DatabaseManager()
+        
+        dbManager.signOut{[weak self] (success) in
+            guard let self = self else {return}
+            
+            if success {
+                let vc = LogInViewController(vm: self.pokemonVM)
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
+            }
+        }
     }
     
     func setupScrollView(){
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.clipsToBounds = true
         scrollView.frame = view.bounds
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
         scrollView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
         scrollView.contentSize = CGSize(width: view.frame.size.width, height: 600)
-        setupUI()
    }
     
     func setupUI() {
+        view.layer.addSublayer(gradient)
         
-        contentView.addSubview(imageView)
-//        contentView.addSubview(lblCards)
-//        contentView.addSubview(lblUltPok)
+        view.addSubview(scrollView)
+        scrollView.addSubview(imageView)
+        scrollView.addSubview(lblCards)
+        scrollView.addSubview(lblUltPok)
+        scrollView.addSubview(collectionView)
 //
-        let vStackView = UIStackView()
-        vStackView.translatesAutoresizingMaskIntoConstraints = false
-        vStackView.spacing = 15
-        vStackView.axis = .vertical
-        vStackView.distribution = .fill
-           
+//        let vStackView = UIStackView()
+//        vStackView.translatesAutoresizingMaskIntoConstraints = false
+//        vStackView.spacing = 8
+//        vStackView.axis = .vertical
+//        vStackView.distribution = .fill
+//
 //        vStackView.addArrangedSubview(imageView)
 //        vStackView.addArrangedSubview(lblCards)
 //        vStackView.addArrangedSubview(lblUltPok)
 //        vStackView.addArrangedSubview(collectionView)
-//        contentView.addSubview(vStackView)
+        //contentView.addSubview(vStackView)
         //view.addSubview(vStackView)
         
-//        vStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40).isActive = true
-//        vStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 40).isActive = true
-//        vStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40).isActive = true
+//        vStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+//        vStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+//        vStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
         imageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -0).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 270).isActive = true
+        imageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 60).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
         
-//        collectionView.heightAnchor.constraint(equalToConstant: 500).isActive = true
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
+        lblCards.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8).isActive = true
+        lblCards.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10).isActive = true
+        lblCards.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
+        
+        lblUltPok.topAnchor.constraint(equalTo: lblCards.bottomAnchor, constant: 8).isActive = true
+        lblUltPok.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 10).isActive = true
+        lblUltPok.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
+        
+        collectionView.topAnchor.constraint(equalTo: lblUltPok.bottomAnchor, constant: 8).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 60).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: 500).isActive = true
+        collectionView.widthAnchor.constraint(equalToConstant: 350).isActive = true
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     
     
@@ -141,7 +193,7 @@ extension ListPokemonViewController: UICollectionViewDelegateFlowLayout, UIColle
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListPokemonViewCell.reusedId, for: indexPath) as! ListPokemonViewCell
-       // cell.backgroundColor = .blue
+    
         cell.configure(pokemonVM: self.pokemonVM, index: indexPath.row)
         return cell
     }
@@ -157,16 +209,4 @@ extension ListPokemonViewController: UICollectionViewDelegate {
     
        }
 }
-
-//extension ListPokemonViewController: UICollectionViewDelegateFlowLayout {
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: view.frame.width / 4, height: view.frame.width / 4)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//
-//}
 

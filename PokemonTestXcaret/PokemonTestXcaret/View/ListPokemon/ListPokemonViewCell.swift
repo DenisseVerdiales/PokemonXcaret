@@ -22,9 +22,10 @@ class ListPokemonViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleToFill
         imageView.image = UIImage(named: "pok")
+        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 12
         imageView.heightAnchor.constraint(equalToConstant: 450).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         imageView.layer.borderWidth = 1.0
         return imageView
     }()
@@ -37,6 +38,7 @@ class ListPokemonViewCell: UICollectionViewCell {
         label.layer.masksToBounds = true
         label.setContentHuggingPriority(.required, for: .vertical)
         label.text = "Pokemon Name"
+        label.backgroundColor = .white
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .black
@@ -62,6 +64,7 @@ class ListPokemonViewCell: UICollectionViewCell {
         vStackView.spacing = 8
         vStackView.axis = .vertical
         vStackView.distribution = .fill
+        vStackView.widthAnchor.constraint(equalToConstant: 400).isActive = true
            
         vStackView.addArrangedSubview(PokeImage)
         vStackView.addArrangedSubview(pokename)
@@ -73,7 +76,7 @@ class ListPokemonViewCell: UICollectionViewCell {
     func configure(pokemonVM: PokemonViewModelType, index: Int) {
 
         guard let name = pokemonVM.pokemonName(for: index) else {return}
-       
+        
         self.pokename.text = name
         guard let type = pokemonVM.pokemonType(for: index) else {return}
         self.PokeImage.backgroundColor = color(pokemonDetail: type)

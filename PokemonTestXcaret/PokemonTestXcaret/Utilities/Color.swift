@@ -10,59 +10,58 @@ import UIKit
 
 func color(pokemonDetail: String?) -> UIColor {
     
-    var color: UIColor = .red
+    var color: UIColor = hexStringToUIColor(hex: "#CD361B")
     
     if (pokemonDetail == "grass"){
-        color = .green
+        color = hexStringToUIColor(hex: "#09C138")
     }
     else if(pokemonDetail == "poison"){
-        color = .purple
+        color = hexStringToUIColor(hex: "#943FC4")
     }
     else if(pokemonDetail == "fire"){
-        color = .red
+        color = hexStringToUIColor(hex: "#D73831")
     }
     else if(pokemonDetail == "water"){
-        color = .blue
+        color = hexStringToUIColor(hex: "#2CB8CB")
     }
     else if(pokemonDetail == "electric"){
-        color = .yellow
+        color = hexStringToUIColor(hex: "#E9E433")
     }
     else if(pokemonDetail == "ice"){
-        color = .systemIndigo
+        color = hexStringToUIColor(hex: "#D51CCA")
     }
     else if(pokemonDetail == "normal"){
-        color = .gray
+        color = hexStringToUIColor(hex: "#CDC6CC")
     }
     else if(pokemonDetail == "flying"){
-        color = .systemCyan
+        color = hexStringToUIColor(hex: "#5FCBC4")
     }
     else if(pokemonDetail == "psychic"){
-        color = .systemPink
+        color = hexStringToUIColor(hex: "#D696D0")
     }
     else if(pokemonDetail == "bug"){
-        color = .systemMint
+        color = hexStringToUIColor(hex: "#CE9511")
     }
     else if(pokemonDetail == "rock"){
-        color = .systemBrown
+        color = hexStringToUIColor(hex: "#B48041")
     }
     else if(pokemonDetail == "fighting"){
-        color = .systemOrange
+        color = hexStringToUIColor(hex: "#F0820E")
     }
     else if(pokemonDetail == "ghost"){
-        color = .systemGray6
+        color = hexStringToUIColor(hex: "#DCDAD8")
     }
     else if(pokemonDetail == "dark"){
-        color = .systemGray6
+        color = hexStringToUIColor(hex: "#ADAAA7")
     }
     else if(pokemonDetail == "dragon"){
-        color = .systemPurple
-        
+        color = hexStringToUIColor(hex: "#7E5BA5")
     }
     else if(pokemonDetail == "steel"){
-        color = .darkGray
+        color = hexStringToUIColor(hex: "#88848B")
     }
     else if(pokemonDetail == "fairy"){
-        color = .systemPink
+        color = hexStringToUIColor(hex: "#EA5DD3")
     }
     
    return color
@@ -73,56 +72,55 @@ func colorBorder(pokemonDetail: String, border: Bool = false) -> CGColor {
     var color: CGColor = UIColor.red.cgColor
     
     if (pokemonDetail == "grass"){
-        color = UIColor.green.cgColor
+        color = hexStringToUIColor(hex: "#09C138").cgColor
     }
     else if(pokemonDetail == "poison"){
-        color = UIColor.purple.cgColor
+        color = hexStringToUIColor(hex: "#943FC4").cgColor
     }
     else if(pokemonDetail == "fire"){
-        color = UIColor.red.cgColor
+        color = hexStringToUIColor(hex: "#D73831").cgColor
     }
     else if(pokemonDetail == "water"){
-        color = UIColor.blue.cgColor
+        color = hexStringToUIColor(hex: "#2CB8CB").cgColor
     }
     else if(pokemonDetail == "electric"){
-        color = UIColor.yellow.cgColor
+        color = hexStringToUIColor(hex: "#E9E433").cgColor
     }
     else if(pokemonDetail == "ice"){
-        color = UIColor.systemIndigo.cgColor
+        color = hexStringToUIColor(hex: "#D51CCA").cgColor
     }
     else if(pokemonDetail == "normal"){
-        color = UIColor.gray.cgColor
+        color = hexStringToUIColor(hex: "#CDC6CC").cgColor
     }
     else if(pokemonDetail == "flying"){
-        color = UIColor.systemCyan.cgColor
+        color = hexStringToUIColor(hex: "#5FCBC4").cgColor
     }
     else if(pokemonDetail == "psychic"){
-        color = UIColor.systemPink.cgColor
+        color = hexStringToUIColor(hex: "#D696D0").cgColor
     }
     else if(pokemonDetail == "bug"){
-        color = UIColor.systemMint.cgColor
+        color = hexStringToUIColor(hex: "#CE9511").cgColor
     }
     else if(pokemonDetail == "rock"){
-        color = UIColor.systemBrown.cgColor
+        color = hexStringToUIColor(hex: "#B48041").cgColor
     }
     else if(pokemonDetail == "fighting"){
-        color = UIColor.systemOrange.cgColor
+        color = hexStringToUIColor(hex: "#F0820E").cgColor
     }
     else if(pokemonDetail == "ghost"){
-        color = UIColor.systemGray6.cgColor
+        color = hexStringToUIColor(hex: "#DCDAD8").cgColor
     }
     else if(pokemonDetail == "dark"){
-        color = UIColor.systemGray6.cgColor
+        color = hexStringToUIColor(hex: "#ADAAA7").cgColor
     }
     else if(pokemonDetail == "dragon"){
-        color = UIColor.systemPurple.cgColor
-        
+        color = hexStringToUIColor(hex: "#7E5BA5").cgColor
     }
     else if(pokemonDetail == "steel"){
-        color = UIColor.darkGray.cgColor
+        color = hexStringToUIColor(hex: "#88848B").cgColor
     }
     else if(pokemonDetail == "fairy"){
-        color = UIColor.systemPink.cgColor
+        color = hexStringToUIColor(hex: "#EA5DD3").cgColor
     }
     
    return color

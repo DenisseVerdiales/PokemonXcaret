@@ -18,16 +18,19 @@ class LogInViewController: UIViewController {
         gradient.type = .axial
         gradient.colors = [
             hexStringToUIColor(hex: "#5C98DB").cgColor,
-            hexStringToUIColor(hex: "#OE4537E").cgColor
+            hexStringToUIColor(hex: "#0E437E").cgColor
         ]
-        gradient.locations = [0.5, 0.5]
+        gradient.locations = [0.0, 1.0]
         return gradient
     }()
     
     lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(frame: .zero)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "logo")
-        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -38,7 +41,9 @@ class LogInViewController: UIViewController {
         txtUser.returnKeyType = .continue
         txtUser.layer.cornerRadius = 12
         txtUser.layer.borderWidth = 1
-        txtUser.layer.borderColor = UIColor.black.cgColor
+        txtUser.translatesAutoresizingMaskIntoConstraints = false
+        txtUser.layer.borderColor = hexStringToUIColor(hex: "#064376").cgColor
+        txtUser.backgroundColor = .white
         txtUser.attributedPlaceholder = NSAttributedString(
             string: "UserName",
             attributes: [NSAttributedString.Key.foregroundColor: hexStringToUIColor(hex: "#5C98DB")]
@@ -56,7 +61,9 @@ class LogInViewController: UIViewController {
         txtPassword.returnKeyType = .done
         txtPassword.layer.cornerRadius = 12
         txtPassword.layer.borderWidth = 1
-        txtPassword.layer.borderColor = UIColor.black.cgColor
+        txtPassword.translatesAutoresizingMaskIntoConstraints = false
+        txtPassword.layer.borderColor = hexStringToUIColor(hex: "#064376").cgColor
+        txtPassword.backgroundColor = .white
         txtPassword.attributedPlaceholder = NSAttributedString(
             string: "Password",
             attributes: [NSAttributedString.Key.foregroundColor: hexStringToUIColor(hex: "#5C98DB")]
@@ -70,13 +77,13 @@ class LogInViewController: UIViewController {
     
     lazy var btnLogIn: UIButton = {
         let btnLogIn = UIButton()
+        btnLogIn.translatesAutoresizingMaskIntoConstraints = false
         btnLogIn.setTitle("Sign In", for: .normal)
         btnLogIn.backgroundColor =  hexStringToUIColor(hex: "#F9C623")
         btnLogIn.setTitleColor(.white, for: .normal)
         btnLogIn.layer.cornerRadius = 12
         btnLogIn.layer.masksToBounds = true
         btnLogIn.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
-        
         btnLogIn.addTarget(self, action: #selector(btnLoginOpc), for: .touchUpInside)
 
         return btnLogIn
@@ -87,10 +94,9 @@ class LogInViewController: UIViewController {
         btnSignUp.translatesAutoresizingMaskIntoConstraints = false
         btnSignUp.heightAnchor.constraint(equalToConstant: 44).isActive = true
         btnSignUp.setTitle("Sign Up", for: .normal)
-        btnSignUp.setTitleColor(.black, for: .normal)
+        btnSignUp.setTitleColor(.white, for: .normal)
         btnSignUp.layer.cornerRadius = 3
         btnSignUp.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        
         btnSignUp.addTarget(self, action: #selector(btnSignUpOpc), for: .touchUpInside)
 
         return btnSignUp
@@ -114,9 +120,13 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-       
-        self.setUpUI()
+        
+         self.setUpUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        setupScrollView()
+        gradient.frame = view.bounds
     }
     
     init(vm: PokemonViewModelType) {
@@ -129,62 +139,67 @@ class LogInViewController: UIViewController {
     }
     
     func setupScrollView(){
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.clipsToBounds = true
         scrollView.frame = view.bounds
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
         scrollView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+        
         scrollView.contentSize = CGSize(width: view.frame.size.width, height: 600)
-        setUpUI()
    }
     
     private func setUpUI(){
 
         self.errorLabel.alpha = 0
+    
+        view.layer.addSublayer(gradient)
         
-//        gradient.frame = view.bounds
-//        view.layer.addSublayer(gradient)
-//
-        let vStackView = UIStackView()
-        vStackView.translatesAutoresizingMaskIntoConstraints = false
-        vStackView.spacing = 15
-        vStackView.axis = .vertical
-        vStackView.distribution = .fill
-           
-        vStackView.addArrangedSubview(imageView)
-        vStackView.addArrangedSubview(txtUser)
-        vStackView.addArrangedSubview(txtPassword)
-        vStackView.addArrangedSubview(errorLabel)
-        vStackView.addArrangedSubview(btnLogIn)
-        vStackView.addArrangedSubview(btnSignUp)
-         
-        view.addSubview(vStackView)
-        imageView.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        view.addSubview(scrollView)
+        scrollView.addSubview(imageView)
+        scrollView.addSubview(txtUser)
+        scrollView.addSubview(txtPassword)
+        scrollView.addSubview(errorLabel)
+        scrollView.addSubview(btnLogIn)
+        scrollView.addSubview(btnSignUp)
+        
+        //imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 270).isActive = true
+        imageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 40).isActive = true
+        imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 60).isActive = true
+        imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
 //        imageView.bottomAnchor.constraint(equalTo: txtUser.topAnchor, constant: -20).isActive = true
         txtUser.heightAnchor.constraint(equalToConstant: 52).isActive = true
+        txtUser.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 60).isActive = true
+        txtUser.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
+        txtUser.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
+
         txtPassword.heightAnchor.constraint(equalToConstant: 52).isActive = true
-        btnLogIn.heightAnchor.constraint(equalToConstant: 52).isActive = true
+        txtPassword.topAnchor.constraint(equalTo: txtUser.bottomAnchor, constant: 8).isActive = true
+        txtPassword.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
+        txtPassword.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
+
+       btnLogIn.heightAnchor.constraint(equalToConstant: 52).isActive = true
+        btnLogIn.topAnchor.constraint(equalTo: txtPassword.bottomAnchor, constant: 40).isActive = true
+        btnLogIn.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
+        btnLogIn.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
+
+        btnSignUp.topAnchor.constraint(equalTo: btnLogIn.bottomAnchor, constant: 8).isActive = true
+        btnSignUp.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
+        btnSignUp.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
+        //scrollView.contentSize = CGSize(width: view.frame.size.width, height: 600)
         
-        vStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
-        vStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 40).isActive = true
-        vStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40).isActive = true
     }
     
     func validateFields() -> result?{
         var data: result?
         
         if txtUser.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || txtPassword.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-         
             data = result(msg: "Please fill in all fields", status: false)
         }
        
