@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import CoreData
 
 protocol PokemonViewModelCore {
     func bind(updateHandler: @escaping () -> Void)
@@ -27,10 +27,16 @@ protocol PokemonViewModelAttributes {
 typealias PokemonViewModelType = PokemonViewModelCore & PokemonViewModelAttributes
 
 class PokemonViewModel {
+    var manager: CoreDataManager
     
     private var pokemons: [PokemonDetail] = [] {
         didSet {
             self.updateHandler?()
+        }
+    }
+    private var pokemonsCoreData: [Pokemons]? = [] {
+        didSet {
+            self.updateHandlerCoreData?()
         }
     }
     private var pokemonsEffect: [EffectLink] = [] {
@@ -44,10 +50,12 @@ class PokemonViewModel {
     private let cache: ImageCache
     
     private var updateHandler: (() -> Void)?
+    private var updateHandlerCoreData: (() -> Void)?
     
-    init(networkManager: NetworkService, cache: ImageCache = ImageCache()) {
+    init(networkManager: NetworkService, cache: ImageCache = ImageCache(), manager: CoreDataManager = CoreDataManager(cache: ImageCache())) {
         self.networkManager = networkManager
         self.cache = cache
+        self.manager = manager
     }
 
 }
@@ -56,6 +64,11 @@ extension PokemonViewModel: PokemonViewModelCore {
     
     func bind(updateHandler: @escaping () -> Void) {
         self.updateHandler = updateHandler
+    }
+    
+    func getPokemonsCD() -> [Pokemons] {
+        let result = self.manager.getPokemons()
+        return result
     }
     
     func getPokemons() {
@@ -73,7 +86,9 @@ extension PokemonViewModel: PokemonViewModelCore {
                         switch pokeResult {
                             case .success(let pokemon):
                             self.pokemons.append(pokemon)
-                            case .failure(let error):
+                            self.manager.savePokemonsDetail(pok: pokemon)
+
+                        case .failure(let error):
                                 print(error)
                         }
                     }
@@ -91,7 +106,7 @@ extension PokemonViewModel: PokemonViewModelCore {
             switch result {
             case .success(let page):
                 self.pokemonsEffect.append(page)
-              
+                self.manager.savePokemonsEffect(effect: page)
             case .failure(let error):
                 print(error)
             }
@@ -130,6 +145,9 @@ extension PokemonViewModel: PokemonViewModelAttributes {
         guard index < self.count else { return nil }
         return self.pokemonsEffect[index].effectEntries[0].effect
     }
+    func getPokemonsCoreData() {
+        self.pokemonsCoreData = self.manager.fetchPokemons()
+    }
     
     func pokemonImage(for index: Int, completion: @escaping (Data?) -> Void) {
         
@@ -149,6 +167,7 @@ extension PokemonViewModel: PokemonViewModelAttributes {
             switch result {
             case .success(let imageData):
                 self.cache.setImageData(data: imageData, key: String(self.pokemons[index].id))
+                self.manager.savePokemonsImg(pok: String(self.pokemons[index].id))
                 completion(imageData)
             case .failure(let error):
                 print(error)

@@ -12,10 +12,7 @@ protocol PokemonCellErrorDelegate: AnyObject {
 }
 class ListPokemonViewCell: UICollectionViewCell {
     static let reusedId = "\(ListPokemonViewCell.self)"
-    
-    var delegate: PokemonCellErrorDelegate?
-    
-    let network = NetworkManager()
+ 
     
     lazy var PokeImage: UIImageView = {
         let imageView = UIImageView(frame: .zero)
@@ -47,7 +44,7 @@ class ListPokemonViewCell: UICollectionViewCell {
     }()
     
     var pokemons: PokemonDetail?
-
+    
     override init(frame: CGRect) {
        super.init(frame: frame)
         self.contentView.backgroundColor = .clear

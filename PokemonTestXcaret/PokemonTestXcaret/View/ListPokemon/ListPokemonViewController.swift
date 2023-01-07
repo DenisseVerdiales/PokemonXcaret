@@ -75,7 +75,6 @@ class ListPokemonViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .yellow
         self.navigationItem.setHidesBackButton(true, animated: true)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log Out",
                                                             style: .done,
@@ -90,7 +89,12 @@ class ListPokemonViewController: UIViewController {
                 self.collectionView.reloadData()
             }
         }
-        self.pokemonVM.getPokemons()
+        if NetworkMonitor.shared.isConnected {
+            self.pokemonVM.getPokemons()
+        } else {
+            print("sin conexion")
+        }
+      
         
     }
     
@@ -137,23 +141,6 @@ class ListPokemonViewController: UIViewController {
         scrollView.addSubview(lblCards)
         scrollView.addSubview(lblUltPok)
         scrollView.addSubview(collectionView)
-//
-//        let vStackView = UIStackView()
-//        vStackView.translatesAutoresizingMaskIntoConstraints = false
-//        vStackView.spacing = 8
-//        vStackView.axis = .vertical
-//        vStackView.distribution = .fill
-//
-//        vStackView.addArrangedSubview(imageView)
-//        vStackView.addArrangedSubview(lblCards)
-//        vStackView.addArrangedSubview(lblUltPok)
-//        vStackView.addArrangedSubview(collectionView)
-        //contentView.addSubview(vStackView)
-        //view.addSubview(vStackView)
-        
-//        vStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
-//        vStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-//        vStackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
         imageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 270).isActive = true
@@ -177,7 +164,6 @@ class ListPokemonViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-    
     
 }
 

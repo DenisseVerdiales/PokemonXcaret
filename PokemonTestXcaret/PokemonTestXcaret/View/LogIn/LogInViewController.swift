@@ -78,13 +78,13 @@ class LogInViewController: UIViewController {
     lazy var btnLogIn: UIButton = {
         let btnLogIn = UIButton()
         btnLogIn.translatesAutoresizingMaskIntoConstraints = false
-        btnLogIn.setTitle("Sign In", for: .normal)
+       // btnLogIn.setTitle("Sign In", for: .normal)
         btnLogIn.backgroundColor =  hexStringToUIColor(hex: "#F9C623")
         btnLogIn.setTitleColor(.white, for: .normal)
         btnLogIn.layer.cornerRadius = 12
         btnLogIn.layer.masksToBounds = true
         btnLogIn.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
-        btnLogIn.addTarget(self, action: #selector(btnLoginOpc), for: .touchUpInside)
+        //btnLogIn.addTarget(self, action: #selector(btnLoginOpc), for: .touchUpInside)
 
         return btnLogIn
        }()
@@ -120,8 +120,19 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
          self.setUpUI()
+        if NetworkMonitor.shared.isConnected {
+            btnLogIn.setTitle("Sign In", for: .normal)
+            btnLogIn.addTarget(self, action: #selector(btnLoginOpc), for: .touchUpInside)
+            btnSignUp.isHidden = false
+        } else {
+            btnLogIn.setTitle("See Pokemons", for: .normal)
+            btnLogIn.addTarget(self, action: #selector(btnSeePok), for: .touchUpInside)
+            self.errorLabel.alpha = 1
+            btnSignUp.isHidden = true
+            errorLabel.text = "You are not connected on the Internet"
+            print("sin conexion")
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -167,13 +178,12 @@ class LogInViewController: UIViewController {
         scrollView.addSubview(btnLogIn)
         scrollView.addSubview(btnSignUp)
         
-        //imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 120).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 270).isActive = true
         imageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 40).isActive = true
         imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 60).isActive = true
         imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
-//        imageView.bottomAnchor.constraint(equalTo: txtUser.topAnchor, constant: -20).isActive = true
+        
         txtUser.heightAnchor.constraint(equalToConstant: 52).isActive = true
         txtUser.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 60).isActive = true
         txtUser.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
@@ -183,17 +193,19 @@ class LogInViewController: UIViewController {
         txtPassword.topAnchor.constraint(equalTo: txtUser.bottomAnchor, constant: 8).isActive = true
         txtPassword.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
         txtPassword.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
+        
+        errorLabel.topAnchor.constraint(equalTo: txtPassword.bottomAnchor, constant: 8).isActive = true
+        errorLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
+        errorLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
 
-       btnLogIn.heightAnchor.constraint(equalToConstant: 52).isActive = true
-        btnLogIn.topAnchor.constraint(equalTo: txtPassword.bottomAnchor, constant: 40).isActive = true
+        btnLogIn.heightAnchor.constraint(equalToConstant: 52).isActive = true
+        btnLogIn.topAnchor.constraint(equalTo: txtPassword.bottomAnchor, constant: 60).isActive = true
         btnLogIn.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
         btnLogIn.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
 
         btnSignUp.topAnchor.constraint(equalTo: btnLogIn.bottomAnchor, constant: 8).isActive = true
         btnSignUp.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 55).isActive = true
         btnSignUp.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -0).isActive = true
-        //scrollView.contentSize = CGSize(width: view.frame.size.width, height: 600)
-        
     }
     
     func validateFields() -> result?{
@@ -210,6 +222,11 @@ class LogInViewController: UIViewController {
     func showError(_ message: String){
         errorLabel.text = message
         errorLabel.alpha = 1
+    }
+    
+    @objc func btnSeePok() {
+        let vc = ListPokemonViewController(vm: self.pokemonVM)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func btnLoginOpc(){

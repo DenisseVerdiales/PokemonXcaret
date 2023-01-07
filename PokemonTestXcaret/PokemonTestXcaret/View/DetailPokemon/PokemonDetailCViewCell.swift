@@ -226,6 +226,9 @@ class PokemonDetailCViewCell: UIViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = .white
+        navigationItem.backButtonTitle = "Hs"
+        navigationController?.navigationBar.backgroundColor = hexStringToUIColor(hex: "#5C98DB")
+  
     }
     
     override func viewDidLayoutSubviews() {
