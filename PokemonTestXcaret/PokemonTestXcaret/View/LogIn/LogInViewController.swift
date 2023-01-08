@@ -78,13 +78,13 @@ class LogInViewController: UIViewController {
     lazy var btnLogIn: UIButton = {
         let btnLogIn = UIButton()
         btnLogIn.translatesAutoresizingMaskIntoConstraints = false
-       // btnLogIn.setTitle("Sign In", for: .normal)
+        btnLogIn.setTitle("Sign In", for: .normal)
         btnLogIn.backgroundColor =  hexStringToUIColor(hex: "#F9C623")
         btnLogIn.setTitleColor(.white, for: .normal)
         btnLogIn.layer.cornerRadius = 12
         btnLogIn.layer.masksToBounds = true
         btnLogIn.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
-        //btnLogIn.addTarget(self, action: #selector(btnLoginOpc), for: .touchUpInside)
+        btnLogIn.addTarget(self, action: #selector(btnLoginOpc), for: .touchUpInside)
 
         return btnLogIn
        }()
@@ -121,17 +121,11 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
          self.setUpUI()
-        if NetworkMonitor.shared.isConnected {
-            btnLogIn.setTitle("Sign In", for: .normal)
-            btnLogIn.addTarget(self, action: #selector(btnLoginOpc), for: .touchUpInside)
-            btnSignUp.isHidden = false
-        } else {
-            btnLogIn.setTitle("See Pokemons", for: .normal)
-            btnLogIn.addTarget(self, action: #selector(btnSeePok), for: .touchUpInside)
-            self.errorLabel.alpha = 1
-            btnSignUp.isHidden = true
-            errorLabel.text = "You are not connected on the Internet"
-            print("sin conexion")
+
+        guard UserDefaults.standard.value(forKey: "email") != nil else {return}
+        if UserDefaults.standard.value(forKey: "email") as! String != ""{
+            let vc = ListPokemonViewController(vm: self.pokemonVM)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -224,11 +218,6 @@ class LogInViewController: UIViewController {
         errorLabel.alpha = 1
     }
     
-    @objc func btnSeePok() {
-        let vc = ListPokemonViewController(vm: self.pokemonVM)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     @objc func btnLoginOpc(){
   
         let error = validateFields()
@@ -247,11 +236,14 @@ class LogInViewController: UIViewController {
             guard let self = self else {return}
             
             if success {
+                UserDefaults.standard.set(self.txtUser.text, forKey: "email")
                 self.txtUser.text = ""
                 self.txtPassword.text = ""
                 
                 let vc = ListPokemonViewController(vm: self.pokemonVM)
                 self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                self.showError("The password is invalid or the user does not have a password.")
             }
         }
         

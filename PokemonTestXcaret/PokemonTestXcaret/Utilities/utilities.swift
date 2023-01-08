@@ -24,3 +24,4 @@ struct result {
         self.status = status
     }
 }
+

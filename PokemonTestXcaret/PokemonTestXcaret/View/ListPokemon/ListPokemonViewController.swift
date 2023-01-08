@@ -84,18 +84,29 @@ class ListPokemonViewController: UIViewController {
         
         
         setupUI()
-        self.pokemonVM.bind {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
+     
         if NetworkMonitor.shared.isConnected {
+            self.pokemonVM.bind {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+            
             self.pokemonVM.getPokemons()
+         
         } else {
-            print("sin conexion")
+            self.pokemonVM.bindCoreData {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+            if self.pokemonVM.countCoreData == 0 {
+                self.pokemonVM.getPokemonsCD()
+            }
+           
         }
       
-        
+     
     }
     
     override func viewDidLayoutSubviews() {
@@ -110,6 +121,7 @@ class ListPokemonViewController: UIViewController {
             guard let self = self else {return}
             
             if success {
+                UserDefaults.standard.set("", forKey: "email")
                 let vc = LogInViewController(vm: self.pokemonVM)
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
@@ -130,7 +142,7 @@ class ListPokemonViewController: UIViewController {
         scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        scrollView.contentSize = CGSize(width: view.frame.size.width, height: 600)
+        scrollView.contentSize = CGSize(width: view.frame.size.width, height: 700)
    }
     
     func setupUI() {
@@ -170,17 +182,30 @@ class ListPokemonViewController: UIViewController {
 extension ListPokemonViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 500)
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return self.pokemonVM.count
+        var countV: Int = 0
+        if NetworkMonitor.shared.isConnected {
+            countV =  self.pokemonVM.count
+         
+        } else {
+            countV = self.pokemonVM.countCoreData
+        }
+        return countV
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListPokemonViewCell.reusedId, for: indexPath) as! ListPokemonViewCell
-    
-        cell.configure(pokemonVM: self.pokemonVM, index: indexPath.row)
+        
+        if NetworkMonitor.shared.isConnected {
+            cell.configure(pokemonVM: self.pokemonVM, index: indexPath.row)
+         
+        } else {
+            cell.configureCoreData(pokemonVM: self.pokemonVM, index: indexPath.row)
+        }
+       
         return cell
     }
 

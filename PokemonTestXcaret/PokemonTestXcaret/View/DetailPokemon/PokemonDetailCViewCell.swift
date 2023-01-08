@@ -139,20 +139,7 @@ class PokemonDetailCViewCell: UIViewController {
         
         return label
     }()
-//    lazy var progProgress: UIProgressView = {
-//        let progress = UIProgressView(frame: .zero)
-//        progress.translatesAutoresizingMaskIntoConstraints = false
-//        progress.backgroundColor = UIColor.black.withAlphaComponent(0.08)
-//        progress.progressTintColor = .systemCyan
-//        progress.progress = 0.5
-//        progress.progressViewStyle = .bar
-//        progress.layer.cornerRadius = 5
-//        progress.clipsToBounds = true
-//        progress.layer.sublayers![1].cornerRadius = 5
-//
-//        return progress
-//    }()
-    
+
     lazy var progProgress2: UIProgressView = {
         let progress = UIProgressView(frame: .zero)
         progress.translatesAutoresizingMaskIntoConstraints = false
@@ -226,7 +213,6 @@ class PokemonDetailCViewCell: UIViewController {
 
     override func viewDidLoad() {
         view.backgroundColor = .white
-        navigationItem.backButtonTitle = "Hs"
         navigationController?.navigationBar.backgroundColor = hexStringToUIColor(hex: "#5C98DB")
   
     }
@@ -307,7 +293,7 @@ class PokemonDetailCViewCell: UIViewController {
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        scrollView.contentSize = CGSize(width: view.frame.size.width, height: 600)
+        scrollView.contentSize = CGSize(width: view.frame.size.width, height: 700)
         setUpUI()
    }
     

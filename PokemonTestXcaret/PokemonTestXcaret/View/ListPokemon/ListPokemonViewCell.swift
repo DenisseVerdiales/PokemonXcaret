@@ -13,6 +13,9 @@ protocol PokemonCellErrorDelegate: AnyObject {
 class ListPokemonViewCell: UICollectionViewCell {
     static let reusedId = "\(ListPokemonViewCell.self)"
  
+    let container = UIView()
+    
+    let activeIndicador = UIActivityIndicatorView(style: .large)
     
     lazy var PokeImage: UIImageView = {
         let imageView = UIImageView(frame: .zero)
@@ -56,6 +59,13 @@ class ListPokemonViewCell: UICollectionViewCell {
     }
 
     func setupUI() {
+//        container.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+//        activeIndicador.color = .white
+//        activeIndicador.center = contentView.center
+//
+//        container.addSubview(activeIndicador)
+        
+        
         let vStackView = UIStackView()
         vStackView.translatesAutoresizingMaskIntoConstraints = false
         vStackView.spacing = 8
@@ -67,9 +77,11 @@ class ListPokemonViewCell: UICollectionViewCell {
         vStackView.addArrangedSubview(pokename)
         
         self.contentView.addSubview(vStackView)
+        contentView.addSubview(container)
         vStackView.bindToSuperView()
     }
     
+
     func configure(pokemonVM: PokemonViewModelType, index: Int) {
 
         guard let name = pokemonVM.pokemonName(for: index) else {return}
@@ -85,8 +97,8 @@ class ListPokemonViewCell: UICollectionViewCell {
         }
         
         pokemonVM.pokemonImage(for: index) { imageData in
+            self.indicatorStart()
             guard let imageData = imageData else { return }
-            
             DispatchQueue.main.async {
                 switch (name) {
                     case "bulbasaur":
@@ -99,8 +111,47 @@ class ListPokemonViewCell: UICollectionViewCell {
                     self.PokeImage.image = UIImage(named: "pikachu")
                     default:
                     self.PokeImage.image = UIImage(data: imageData)
+                    
                 }
             }
+           
         }
+    }
+    
+    func configureCoreData(pokemonVM: PokemonViewModelType, index: Int) {
+   
+        guard let name = pokemonVM.pokemonNameCD(for: index) else {return}
+        
+        self.pokename.text = name
+        guard let type = pokemonVM.pokemonTypeCD(for: index) else {return}
+        self.PokeImage.backgroundColor = color(pokemonDetail: type)
+        self.PokeImage.layer.borderColor = colorBorder(pokemonDetail: type)
+   
+        guard let imageData = pokemonVM.pokemonImgCD(for: index) else { return }
+        
+            DispatchQueue.main.async {
+                switch (name) {
+                    case "bulbasaur":
+                    self.PokeImage.image = UIImage(named: "bulbasaur")
+                    case "charizard":
+                    self.PokeImage.image = UIImage(named: "charizard")
+                    case "squirtle":
+                    self.PokeImage.image = UIImage(named: "squirtle")
+                    case "pikachu":
+                    self.PokeImage.image = UIImage(named: "pikachu")
+                    default:
+                    self.PokeImage.image = UIImage(data: imageData)
+                    
+                }
+            }
+    }
+   
+    
+    func indicatorStart() {
+        activeIndicador.startAnimating()
+    }
+    
+    func indicatorStop() {
+        //activeIndicador.removeFromSuperview()
     }
 }
